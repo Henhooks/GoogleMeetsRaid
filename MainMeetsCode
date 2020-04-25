@@ -1,0 +1,56 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Hangouts {
+    public static void main(String[] args) {
+        System.setProperty("webdriver.chrome.driver", "path/to/chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        //website to go to
+        driver.get("http://meet.google.com");
+       String thisTime;
+
+        boolean found = false;
+       while (found == false) {
+//create random 10 digit letter thing
+          thisTime=RandomString.getAlphaNumericString(10);
+
+            //open area to put code in
+            WebElement buttonToClick = driver.findElement(By.className("ox9SMb"));
+
+            buttonToClick.click();
+//put in the code
+            try {
+                Thread.sleep(1000);
+                WebElement findTextInput = driver.findElement(By.tagName("input"));
+
+                findTextInput.sendKeys(thisTime);
+System.out.println(thisTime);
+
+            } catch (InterruptedException ie) {
+                Thread.currentThread().interrupt();
+            }
+
+            //click continue
+            WebElement clickContinue = driver.findElement(By.className("Jsqtqc"));
+            clickContinue.click();
+
+//check if page has changed
+            try{
+                Thread.sleep(1000);
+                System.out.println(driver.getCurrentUrl());
+                if(!driver.getCurrentUrl().equals("https://meet.google.com/")){
+                    found=true;
+
+                }
+                System.out.println(found);
+            } catch (InterruptedException ie ){
+                Thread.currentThread().interrupt();
+            }
+
+        }
+
+
+    }
+}
